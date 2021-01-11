@@ -30,7 +30,8 @@ You can also change these settings via the config file. The relevant entries are
 
 ### Update theme (Linux)
 1. `cd /opt/nightwalker`
-1. `git pull`
+2. `git pull`
+3. If it won't update try: `git fetch --all && git reset --hard && git pull`
 
 ### Tested
 Based on the standard qBittorrent WebUI theme (4.3.2 release).
