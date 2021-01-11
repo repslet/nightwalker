@@ -18,6 +18,10 @@ You can also change these settings via the config file. The relevant entries are
 - WebUI\AlternativeUIEnabled=true
 - WebUI\RootFolder=/path/to/Nightwalker
 
+### Tested
+Based on the standard qBittorrent WebUI theme (4.3.2 release).
+Tested in 4.3.1 and 4.3.2
+
 ![preview][preview]
 It should look like this
 
