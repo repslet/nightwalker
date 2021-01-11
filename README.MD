@@ -15,8 +15,8 @@
 
 You can also change these settings via the config file. The relevant entries are:
 
-WebUI\AlternativeUIEnabled=true
-WebUI\RootFolder=/path/to/Nightwalker
+- WebUI\AlternativeUIEnabled=true
+- WebUI\RootFolder=/path/to/Nightwalker
 
 ![preview][preview]
 It should look like this
