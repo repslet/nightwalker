@@ -1,6 +1,12 @@
 # A Dark but not black qBittorrent WebUI 
 **_A darker theme for qBittorrent WebUI_ (made with the help of the Walkerservers community)**
 
+
+# Features
+- It's dark, but not black
+- It has different colors for ratio-values (see screenshot)
+- It has a mix of Fontawesome and custom icons
+
 # Installation
 
 ### Clone this repo (Windows)
