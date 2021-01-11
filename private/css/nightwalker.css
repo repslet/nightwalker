@@ -5,6 +5,7 @@
     --color-LessDark: #2a2f36;
     --color-Grey: #34373f;
     --color-GreySelected: #454952;
+    --color-LightGrey: #51555f;
     --color-White: #dfdfdf;
     --color-ProgressBarFG: #ffffff;
     --color-ProgressBarBG: #2e78d8;
@@ -478,7 +479,7 @@ ul.filterList a {
     font-weight: 900;
     display: inline-block;
     margin-right: 5px;
-    color: var(--color-GoodGreen);
+    color: var(--color-Blue);
     padding-left: 5px;
 }
 
@@ -527,6 +528,21 @@ ul.filterList a {
     padding-left: 5px;
 }
 
+#errored_filter>a img {
+    display: none;
+}
+
+#errored_filter:before {
+    font-family: "Font Awesome 5 Free";
+    font-size: 16px;
+    content: "\f00d";
+    font-weight: 900;
+    display: inline-block;
+    margin-right: 5px;
+    color: var(--color-BadRed);
+    padding-left: 5px;
+}
+
 #active_filter>a img {
     display: none;
 }
@@ -553,7 +569,7 @@ ul.filterList a {
     font-weight: 900;
     display: inline-block;
     margin-right: 5px;
-    color: var(--color-BadRed);
+    color: var(--color-LightGrey);
     padding-left: 5px;
 }
 
@@ -568,7 +584,7 @@ ul.filterList a {
     font-weight: 900;
     display: inline-block;
     margin-right: 5px;
-    color: var(--color-BadRed);
+    color: var(--color-LightGrey);
     padding-left: 5px;
 }
 
@@ -583,7 +599,7 @@ ul.filterList a {
     font-weight: 900;
     display: inline-block !important;
     margin-right: 5px;
-    color: var(--color-Orange);
+    color: var(--color-LightGrey);
     padding-left: 5px;
 }
 
@@ -598,7 +614,7 @@ ul.filterList a {
     font-weight: 900;
     display: inline-block !important;
     margin-right: 5px;
-    color: var(--color-Orange);
+    color: var(--color-LightGrey);
     padding-left: 5px;
 }
 

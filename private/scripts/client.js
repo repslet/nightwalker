@@ -451,7 +451,7 @@ window.addEvent('load', function() {
 
         const createLink = function(hash, text, count) {
             const html = '<a href="#" onclick="setTagFilter(' + hash + ');return false;">'
-                + '<img src="icons/inode-directory.svg"/>'
+                + '<img src="icons/inode-tag.png"/>'
                 + window.qBittorrent.Misc.escapeHtml(text) + ' (' + count + ')' + '</a>';
             const el = new Element('li', {
                 id: hash,
