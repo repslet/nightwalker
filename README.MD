@@ -3,14 +3,18 @@
 
 # Installation
 
-### Clone this repo
+### Clone this repo (Windows)
 1. Clone or download this repo as a .ZIP
 2. Move it somewhere where qBittorrent can find it.
 
+### Clone this repo (Linux)
+1. `cd /opt`
+2. `sudo git clone https://github.com/repslet/nightwalker.git`
+3. `sudo chmod -R 777 nightwalker`
 
 ### Activate Alterative WebUI in qBittorrent
 1. Under `Tools->Preferences->WebUI` enable `Use alternative WebUI`.
-2. Choose a location that points to the `Nightwalker` folder, i.e. `/home/user/Nightwalker`
+2. Choose a location that points to the `Nightwalker` folder, i.e. `/opt/nightwalker`
 3. Restart qBittorrent or refresh your browser for changes to take effect.
 
 You can also change these settings via the config file. The relevant entries are:
