@@ -1,6 +1,7 @@
 # A Dark but not black qBittorrent WebUI 
 **_A darker theme for qBittorrent WebUI_ (made with the help of the Walkerservers community)**
 
+![preview][preview]
 
 # Features
 - It's dark, but not black
@@ -30,15 +31,16 @@ You can also change these settings via the config file. The relevant entries are
 
 ### Update theme (Linux)
 1. `cd /opt/nightwalker`
-2. `git pull`
-3. If it won't update try: `git fetch --all && git reset --hard && git pull`
+2. `git checkout main`
+3. `git fetch origin main`
+4. `git reset --hard origin/main`
 
 ### Tested
 Based on the standard qBittorrent WebUI theme (4.3.2 release).
 Tested in 4.3.1 and 4.3.2
 
-![preview][preview]
-It should look like this
+#### A note for those who used the [Theme Park][theme.park] nginx mod
+Modify your nginx config and remove the lines that introduced the external css, anything after `rewrite ^/qbittorrent/(.*) /$1 break; ` (non inclusive) is something that can be removed. Do not leave -modded, or any other files that are not necessary for nginx to function in the `/etc/nginx/apps/` directory. Reload nginx after making changes by doing `sudo service nginx configtest`, if it returns OK, then proceed and do `sudo service nginx reload`. 
 
 # Credits
 * The Walkerservers (Discord) community
@@ -47,4 +49,5 @@ It should look like this
 * qBittorrent for the base files
 
 [preview]: preview.png
-[qbittorrentsource]: https://github.com/qbittorrent/qBittorrent/tree/master/src/webui/www
+[qbittorrentsource]: https://github.com/qbittorrent/qBittorrent/tree/master/src/webui/www1\
+[theme.park]: https://github.com/gilbN/theme.park/wiki/qBittorrent
