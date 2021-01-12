@@ -60,10 +60,10 @@ a {
     background-image: none !important;
 }
 
-#desktopNavbar li ul .divider {
+/* #desktopNavbar li ul .divider {
     border-top-color: var(--color-Grey) !important;
     display: none;
-}
+} */
 
 #pageWrapper {
     border-top-color: var(--color-Grey) !important;
@@ -1136,9 +1136,9 @@ h4,
 
 }
 
-li.divider {
+/* li.divider {
     border-top: 1px solid rgba(255, 255, 255, .25) !important;
-}
+} */
 
 
 #main input[type="text"i] {
