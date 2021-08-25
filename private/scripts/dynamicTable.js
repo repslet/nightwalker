@@ -1111,7 +1111,8 @@ window.qBittorrent.DynamicTable = (function() {
             this.columns['ratio'].updateTd = function(td, row) {
                 const ratio = this.getRowValue(row);
                 const string = (ratio === -1) ? '∞' : window.qBittorrent.Misc.toFixedPointString(ratio, 2);
-                console.log(parseFloat(ratio));
+                
+                // console.log(parseFloat(ratio));
 
                 switch (true) {
                     case (ratio < 0.5):
