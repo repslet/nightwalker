@@ -6,8 +6,8 @@
     <title>QBT_TR(Set location)QBT_TR[CONTEXT=HttpServer]</title>
     <link rel="stylesheet" href="css/style.css?v=${CACHEID}" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/nightwalker.css?v=${CACHEID}" />
-    <script src="scripts/lib/mootools-1.2-core-yc.js"></script>
-    <script src="scripts/lib/mootools-1.2-more.js"></script>
+    <script src="scripts/lib/MooTools-Core-1.6.0-compat-compressed.js"></script>
+    <script src="scripts/lib/MooTools-More-1.6.0-compat-compressed.js"></script>
     <script src="scripts/misc.js?locale=${LANG}&v=${CACHEID}"></script>
     <script>
         'use strict';
@@ -34,7 +34,7 @@
             const path = new URI().getData('path');
             // set text field to current value
             if (path)
-                $('setLocation').value = window.qBittorrent.Misc.escapeHtml(decodeURIComponent(path));
+                $('setLocation').value = window.qBittorrent.Misc.escapeHtml(path);
 
             $('setLocation').focus();
             $('setLocationButton').addEvent('click', function(e) {

@@ -380,7 +380,6 @@ li.divider {
 div.toolbox.divider {  /* Have to specify div here for IE6's sake */
     background: url(../images/toolbox-divider.gif) repeat-y;
     padding-left: 8px;
-    display: none;
 }
 
 .toolbox img.disabled {
