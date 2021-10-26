@@ -13,27 +13,27 @@
 ### Clone this repo (Windows)
 1. Clone or download this repo as a .ZIP
 2. Move it somewhere where qBittorrent can find it.
+3. Ensure you use a trailing slash.
 
 ### Clone this repo (Linux)
-1. `cd /opt`
-2. `sudo git clone https://github.com/brettpetch/nightwalker.git`
-3. `sudo chown -R nobody:nogroup /opt/nightwalker`
+1. `sudo git clone https://github.com/brettpetch/nightwalker.git /opt/nightwalker`
+3. `sudo chown -R nobody:nogroup /opt/nightwalker/`
 
 ### Activate Alterative WebUI in qBittorrent
 1. Under `Tools->Preferences->WebUI` enable `Use alternative WebUI`.
-2. Choose a location that points to the `Nightwalker` folder, i.e. `/opt/nightwalker`
+2. Choose a location that points to the `nightwalker` folder, i.e. `/opt/nightwalker/`
 3. Restart qBittorrent or refresh your browser for changes to take effect.
 
 You can also change these settings via the config file. The relevant entries are:
 
-- WebUI\AlternativeUIEnabled=true
-- WebUI\RootFolder=/path/to/Nightwalker
+- `WebUI\AlternativeUIEnabled=true`
+- `WebUI\RootFolder=/opt/nightwalker/`
 
 ### Update theme (Linux)
-1. `cd /opt/nightwalker`
-2. `git checkout main`
-3. `git fetch origin main`
-4. `git reset --hard origin/main`
+1. `git -C /opt/nightwalker checkout main`
+2. `git -C /opt/nightwalker fetch origin main`
+3. `git -C /opt/nightwalker reset --hard origin/main`
+4. `sudo chown -R nobody:nogroup /opt/nightwalker`
 
 ### Tested
 Based on the standard qBittorrent WebUI theme (4.3.8 release).
