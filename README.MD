@@ -17,7 +17,7 @@
 ### Clone this repo (Linux)
 1. `cd /opt`
 2. `sudo git clone https://github.com/brettpetch/nightwalker.git`
-3. `sudo chmod -R 777 nightwalker`
+3. `sudo chown -R nobody:nogroup /opt/nightwalker`
 
 ### Activate Alterative WebUI in qBittorrent
 1. Under `Tools->Preferences->WebUI` enable `Use alternative WebUI`.
