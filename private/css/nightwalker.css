@@ -62,34 +62,7 @@
     --link-color: #2e78d8;
   }
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-Dark: #dfdfdf;
-    --color-LessDark: #ddd;
-    --color-Grey: #cacaca;
-    --color-GreySelected: #9397a0;
-    --color-LightGrey: #51555f;
-    --color-White: #25282e;
-    --color-ProgressBarFG: #34373f;
-    --color-ProgressBarBG: #2e78d8;
-    --color-DarkSelected: #2e78d8;
-    --color-RatioBad: #eb2a2a;
-    --color-RatioAlmost: #e78310;
-    --color-RatioGood: #36bd58;
-    --color-RatioBest: #2e78d8;
-    --color-BadRed: #bd3636;
-    --color-GoodGreen: #36bd58;
-    --color-Orange: #c77920;
-    --color-Blue: #2e78d8;
-    --button-color: #34373f;
-    --button-color-hover: #2e78d8;
-    --button-text: #2a2f36;
-    --accent-color: #236dcd;
-    --accent-color-hover: #1d67c7;
-    --text: #2a2f36;
-    --text-hover: #000;
-  }
-}
+
 
 /* THEME */
 html,
