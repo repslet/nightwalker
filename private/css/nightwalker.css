@@ -1421,7 +1421,7 @@ input[type="submit"i]:hover {
 }
 
 .unreadArticle {
-  color: var(--color-Blue);
+  color: var(--color-Blue) !important;
 }
 
 #rssFetchingDisabled {
