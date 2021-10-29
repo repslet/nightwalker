@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="css/style.css?v=${CACHEID}" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/nightwalker.css?v=${CACHEID}" />
     <link rel="stylesheet" href="css/Window.css?v=${CACHEID}" type="text/css" />
-    <script src="scripts/lib/mootools-1.2-core-yc.js"></script>
-    <script src="scripts/lib/mootools-1.2-more.js"></script>
+    <script src="scripts/lib/MooTools-Core-1.6.0-compat-compressed.js"></script>
+    <script src="scripts/lib/MooTools-More-1.6.0-compat-compressed.js"></script>
     <script src="scripts/download.js?v=${CACHEID}"></script>
     <script src="scripts/misc.js?locale=${LANG}&v=${CACHEID}"></script>
 </head>
@@ -17,7 +17,7 @@
     <iframe id="download_frame" name="download_frame" class="invisible" src="about:blank"></iframe>
     <form action="api/v2/torrents/add" enctype="multipart/form-data" method="post" id="downloadForm" style="text-align: center;" target="download_frame" autocorrect="off" autocapitalize="none">
         <div style="text-align: center;">
-            <br/>
+            <br />
             <h2 class="vcenter">QBT_TR(Download Torrents from their URLs or Magnet links)QBT_TR[CONTEXT=HttpServer]</h2>
             <textarea id="urls" rows="10" name="urls"></textarea>
             <p>QBT_TR(Only one link per line)QBT_TR[CONTEXT=HttpServer]</p>
