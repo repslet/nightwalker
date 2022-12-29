@@ -43,26 +43,27 @@ window.qBittorrent.Misc = (function() {
             escapeHtml: escapeHtml,
             safeTrim: safeTrim,
             toFixedPointString: toFixedPointString,
-            containsAllTerms: containsAllTerms
+            containsAllTerms: containsAllTerms,
+            MAX_ETA: 8640000
         };
     };
 
     /*
-    * JS counterpart of the function in src/misc.cpp
-    */
+     * JS counterpart of the function in src/misc.cpp
+     */
     const friendlyUnit = function(value, isSpeed) {
         const units = [
-            "QBT_TR(B)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(KiB)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(MiB)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(GiB)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(TiB)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(PiB)QBT_TR[CONTEXT=misc]",
-            "QBT_TR(EiB)QBT_TR[CONTEXT=misc]"
+            "B",
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB",
+            "PiB",
+            "EiB"
         ];
 
         if ((value === undefined) || (value === null) || (value < 0))
-            return "QBT_TR(Unknown)QBT_TR[CONTEXT=misc]";
+            return "Unknown";
 
         let i = 0;
         while (value >= 1024.0 && i < 6) {
@@ -71,9 +72,12 @@ window.qBittorrent.Misc = (function() {
         }
 
         function friendlyUnitPrecision(sizeUnit) {
-            if (sizeUnit <= 2) return 1; // KiB, MiB
-            else if (sizeUnit === 3) return 2; // GiB
-            else return 3; // TiB, PiB, EiB
+            if (sizeUnit <= 2) // KiB, MiB
+                return 1;
+            else if (sizeUnit === 3) // GiB
+                return 2;
+            else // TiB, PiB, EiB
+                return 3;
         }
 
         let ret;
@@ -87,34 +91,35 @@ window.qBittorrent.Misc = (function() {
         }
 
         if (isSpeed)
-            ret += "QBT_TR(/s)QBT_TR[CONTEXT=misc]";
+            ret += "/s";
         return ret;
-    }
+    };
 
     /*
-    * JS counterpart of the function in src/misc.cpp
-    */
-    const friendlyDuration = function(seconds) {
-        const MAX_ETA = 8640000;
-        if (seconds < 0 || seconds >= MAX_ETA)
+     * JS counterpart of the function in src/misc.cpp
+     */
+    const friendlyDuration = function(seconds, maxCap = -1) {
+        if (seconds < 0 || ((seconds >= maxCap) && (maxCap >= 0)))
             return "∞";
         if (seconds === 0)
             return "0";
         if (seconds < 60)
-            return "QBT_TR(< 1m)QBT_TR[CONTEXT=misc]";
+            return "< 1m";
         let minutes = seconds / 60;
         if (minutes < 60)
-            return "QBT_TR(%1m)QBT_TR[CONTEXT=misc]".replace("%1", parseInt(minutes));
+            return "%1m".replace("%1", parseInt(minutes));
         let hours = minutes / 60;
         minutes = minutes % 60;
         if (hours < 24)
-            return "QBT_TR(%1h %2m)QBT_TR[CONTEXT=misc]".replace("%1", parseInt(hours)).replace("%2", parseInt(minutes));
-        const days = hours / 24;
+            return "%1h %2m".replace("%1", parseInt(hours)).replace("%2", parseInt(minutes));
+        let days = hours / 24;
         hours = hours % 24;
-        if (days < 100)
-            return "QBT_TR(%1d %2h)QBT_TR[CONTEXT=misc]".replace("%1", parseInt(days)).replace("%2", parseInt(hours));
-        return "∞";
-    }
+        if (days < 365)
+            return "%1d %2h".replace("%1", parseInt(days)).replace("%2", parseInt(hours));
+        const years = days / 365;
+        days = days % 365;
+        return "%1y %2d".replace("%1", parseInt(years)).replace("%2", parseInt(days));
+    };
 
     const friendlyPercentage = function(value) {
         let percentage = (value * 100).round(1);
@@ -123,15 +128,15 @@ window.qBittorrent.Misc = (function() {
         if (percentage > 100)
             percentage = 100;
         return percentage.toFixed(1) + "%";
-    }
+    };
 
     const friendlyFloat = function(value, precision) {
         return parseFloat(value).toFixed(precision);
-    }
+    };
 
     /*
-    * From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
-    */
+     * From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+     */
     if (!Date.prototype.toISOString) {
         (function() {
 
@@ -157,18 +162,20 @@ window.qBittorrent.Misc = (function() {
     }
 
     /*
-    * JS counterpart of the function in src/misc.cpp
-    */
+     * JS counterpart of the function in src/misc.cpp
+     */
     const parseHtmlLinks = function(text) {
-        const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-        return text.replace(exp, "<a target='_blank' href='$1'>$1</a>");
-    }
+        const exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/ig;
+        return text.replace(exp, "<a target='_blank' rel='noopener noreferrer' href='$1'>$1</a>");
+    };
 
     const escapeHtml = function(str) {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
-    }
+        const escapedString = div.innerHTML;
+        div.remove();
+        return escapedString;
+    };
 
     const safeTrim = function(value) {
         try {
@@ -179,13 +186,13 @@ window.qBittorrent.Misc = (function() {
                 return "";
             throw e;
         }
-    }
+    };
 
     const toFixedPointString = function(number, digits) {
         // Do not round up number
         const power = Math.pow(10, digits);
         return (Math.floor(power * number) / power).toFixed(digits);
-    }
+    };
 
     /**
      *
@@ -195,7 +202,7 @@ window.qBittorrent.Misc = (function() {
      */
     const containsAllTerms = function(text, terms) {
         const textToSearch = text.toLowerCase();
-        return terms.every((function(term) {
+        return terms.every(function(term) {
             const isTermRequired = (term[0] === '+');
             const isTermExcluded = (term[0] === '-');
             if (isTermRequired || isTermExcluded) {
@@ -208,8 +215,10 @@ window.qBittorrent.Misc = (function() {
 
             const textContainsTerm = (textToSearch.indexOf(term) !== -1);
             return isTermExcluded ? !textContainsTerm : textContainsTerm;
-        }));
-    }
+        });
+    };
 
     return exports();
 })();
+
+Object.freeze(window.qBittorrent.Misc);

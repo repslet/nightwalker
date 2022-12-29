@@ -97,6 +97,10 @@
 
                 superSeeding: function(element, ref) {
                     setSuperSeedingFN(!ref.getItemChecked('superSeeding'));
+                },
+
+                exportTorrent: function(element, ref) {
+                    exportTorrentFN();
                 }
             },
             offsets: {
@@ -109,4 +113,6 @@
 
         return exports();
     })();
+
+    Object.freeze(window.qBittorrent.TransferList);
 </script>

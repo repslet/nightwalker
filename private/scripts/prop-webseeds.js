@@ -100,7 +100,7 @@ window.qBittorrent.PropWebseeds = (function() {
             // Tab changed, don't do anything
             return;
         }
-        const new_hash = torrentsTable.getCurrentTorrentHash();
+        const new_hash = torrentsTable.getCurrentTorrentID();
         if (new_hash === "") {
             wsTable.removeAllRows();
             clearTimeout(loadWebSeedsDataTimer);
@@ -117,7 +117,7 @@ window.qBittorrent.PropWebseeds = (function() {
             noCache: true,
             method: 'get',
             onFailure: function() {
-                $('error_div').set('html', 'QBT_TR(qBittorrent client is not reachable)QBT_TR[CONTEXT=HttpServer]');
+                $('error_div').set('html', 'qBittorrent client is not reachable');
                 clearTimeout(loadWebSeedsDataTimer);
                 loadWebSeedsDataTimer = loadWebSeedsData.delay(20000);
             },
@@ -151,3 +151,5 @@ window.qBittorrent.PropWebseeds = (function() {
 
     return exports();
 })();
+
+Object.freeze(window.qBittorrent.PropWebseeds);

@@ -1,3 +1,5 @@
+** Hack to "fix" theme after qBittorrent WebUI stopped support for translation in v4.5. NOTE: Not optimised, just a splice of the current WebUI and the nightwalker styles**
+
 # A Dark but not black qBittorrent WebUI 
 **_A darker theme for qBittorrent WebUI_ (made with the help of the Walkerservers community)**
 
@@ -16,7 +18,7 @@
 
 ### Clone this repo (Linux)
 1. `cd /opt`
-2. `sudo git clone https://github.com/repslet/nightwalker.git`
+2. `sudo git clone https://github.com/CallMeBruce/nightwalker`
 3. `sudo chmod -R 777 nightwalker`
 
 ### Activate Alterative WebUI in qBittorrent
@@ -36,13 +38,13 @@ You can also change these settings via the config file. The relevant entries are
 4. `git reset --hard origin/main`
 
 ### Tested
-Based on the standard qBittorrent WebUI theme (4.3.2 release).
-Tested in 4.3.1 and 4.3.2
+Based on the standard qBittorrent WebUI theme (4.5 release).
 
 #### A note for those who used the [Theme Park][theme.park] nginx mod
 Modify your nginx config and remove the lines that introduced the external css, anything after `rewrite ^/qbittorrent/(.*) /$1 break; ` (non inclusive) is something that can be removed. Do not leave -modded, or any other files that are not necessary for nginx to function in the `/etc/nginx/apps/` directory. Reload nginx after making changes by doing `sudo service nginx configtest`, if it returns OK, then proceed and do `sudo service nginx reload`. 
 
 # Credits
+* The source of this fork [nightwalker]:[https://github.com/repslet/nightwalker].git
 * The Walkerservers (Discord) community
 * glibN for the inspiration to use the Fontawesome pack
 * Fontawesome for their great fonts

@@ -43,7 +43,9 @@ window.qBittorrent.PropFiles = (function() {
             createPriorityCombo: createPriorityCombo,
             updatePriorityCombo: updatePriorityCombo,
             updateData: updateData,
-            collapseIconClicked: collapseIconClicked
+            collapseIconClicked: collapseIconClicked,
+            expandFolder: expandFolder,
+            collapseFolder: collapseFolder
         };
     };
 
@@ -180,17 +182,16 @@ window.qBittorrent.PropFiles = (function() {
         select.set('id', 'comboPrio' + id);
         select.set('data-id', id);
         select.set('data-file-id', fileId);
-        select.set('disabled', is_seed);
         select.addClass('combo_priority');
         select.addEvent('change', fileComboboxChanged);
 
-        createPriorityOptionElement(FilePriority.Ignored, (FilePriority.Ignored === selectedPriority), 'QBT_TR(Do not download)QBT_TR[CONTEXT=PropListDelegate]').injectInside(select);
-        createPriorityOptionElement(FilePriority.Normal, (FilePriority.Normal === selectedPriority), 'QBT_TR(Normal)QBT_TR[CONTEXT=PropListDelegate]').injectInside(select);
-        createPriorityOptionElement(FilePriority.High, (FilePriority.High === selectedPriority), 'QBT_TR(High)QBT_TR[CONTEXT=PropListDelegate]').injectInside(select);
-        createPriorityOptionElement(FilePriority.Maximum, (FilePriority.Maximum === selectedPriority), 'QBT_TR(Maximum)QBT_TR[CONTEXT=PropListDelegate]').injectInside(select);
+        createPriorityOptionElement(FilePriority.Ignored, (FilePriority.Ignored === selectedPriority), 'Do not download').injectInside(select);
+        createPriorityOptionElement(FilePriority.Normal, (FilePriority.Normal === selectedPriority), 'Normal').injectInside(select);
+        createPriorityOptionElement(FilePriority.High, (FilePriority.High === selectedPriority), 'High').injectInside(select);
+        createPriorityOptionElement(FilePriority.Maximum, (FilePriority.Maximum === selectedPriority), 'Maximum').injectInside(select);
 
         // "Mixed" priority is for display only; it shouldn't be selectable
-        const mixedPriorityOption = createPriorityOptionElement(FilePriority.Mixed, (FilePriority.Mixed === selectedPriority), 'QBT_TR(Mixed)QBT_TR[CONTEXT=PropListDelegate]');
+        const mixedPriorityOption = createPriorityOptionElement(FilePriority.Mixed, (FilePriority.Mixed === selectedPriority), 'Mixed');
         mixedPriorityOption.set('disabled', true);
         mixedPriorityOption.injectInside(select);
 
@@ -202,9 +203,6 @@ window.qBittorrent.PropFiles = (function() {
 
         if (parseInt(combobox.value) !== selectedPriority)
             selectComboboxPriority(combobox, selectedPriority);
-
-        if (combobox.disabled !== is_seed)
-            combobox.disabled = is_seed;
     };
 
     const selectComboboxPriority = function(combobox, priority) {
@@ -308,7 +306,8 @@ window.qBittorrent.PropFiles = (function() {
     };
 
     const setFilePriority = function(ids, fileIds, priority) {
-        if (current_hash === "") return;
+        if (current_hash === "")
+            return;
 
         clearTimeout(loadTorrentFilesDataTimer);
         new Request({
@@ -343,7 +342,7 @@ window.qBittorrent.PropFiles = (function() {
             // Tab changed, don't do anything
             return;
         }
-        const new_hash = torrentsTable.getCurrentTorrentHash();
+        const new_hash = torrentsTable.getCurrentTorrentID();
         if (new_hash === "") {
             torrentFilesTable.clear();
             clearTimeout(loadTorrentFilesDataTimer);
@@ -422,38 +421,40 @@ window.qBittorrent.PropFiles = (function() {
         const rootNode = new window.qBittorrent.FileTree.FolderNode();
 
         rows.forEach(function(row) {
+            const pathItems = row.fileName.split(window.qBittorrent.Filesystem.PathSeparator);
+
+            pathItems.pop(); // remove last item (i.e. file name)
             let parent = rootNode;
-            let folderPath = window.qBittorrent.Filesystem.folderName(row.fileName);
-            while (folderPath) {
-                const folderName = window.qBittorrent.Filesystem.fileName(folderPath);
+            pathItems.forEach(function(folderName) {
                 if (folderName === '.unwanted')
                     return;
 
-                let parentNode = null;
+                let folderNode = null;
                 if (parent.children !== null) {
                     for (let i = 0; i < parent.children.length; ++i) {
                         const childFolder = parent.children[i];
                         if (childFolder.name === folderName) {
-                            parentNode = childFolder;
+                            folderNode = childFolder;
                             break;
                         }
                     }
                 }
 
-                if (parentNode === null) {
-                    parentNode = new window.qBittorrent.FileTree.FolderNode();
-                    parentNode.path = folderPath;
-                    parentNode.name = folderName;
-                    parentNode.rowId = rowId;
-                    parentNode.root = parent;
-                    parent.addChild(parentNode);
+                if (folderNode === null) {
+                    folderNode = new window.qBittorrent.FileTree.FolderNode();
+                    folderNode.path = (parent.path === "")
+                        ? folderName
+                        : [parent.path, folderName].join(window.qBittorrent.Filesystem.PathSeparator);
+                    folderNode.name = folderName;
+                    folderNode.rowId = rowId;
+                    folderNode.root = parent;
+                    parent.addChild(folderNode);
 
                     ++rowId;
                 }
 
-                parent = parentNode;
-                folderPath = window.qBittorrent.Filesystem.folderName(folderPath);
-            }
+                parent = folderNode;
+            });
 
             const isChecked = row.checked ? TriState.Checked : TriState.Unchecked;
             const remaining = (row.priority === FilePriority.Ignored) ? 0 : row.remaining;
@@ -493,9 +494,24 @@ window.qBittorrent.PropFiles = (function() {
             collapseNode(node);
     };
 
+    const expandFolder = function(id) {
+        const node = torrentFilesTable.getNode(id);
+        if (node.isFolder) {
+            expandNode(node);
+        }
+    };
+
+    const collapseFolder = function(id) {
+        const node = torrentFilesTable.getNode(id);
+        if (node.isFolder) {
+            collapseNode(node);
+        }
+    };
+
     const filesPriorityMenuClicked = function(priority) {
         const selectedRows = torrentFilesTable.selectedRowsIds();
-        if (selectedRows.length === 0) return;
+        if (selectedRows.length === 0)
+            return;
 
         const rowIds = [];
         const fileIds = [];
@@ -525,22 +541,25 @@ window.qBittorrent.PropFiles = (function() {
         menu: 'torrentFilesMenu',
         actions: {
             Rename: function(element, ref) {
-                const hash = torrentsTable.getCurrentTorrentHash();
-                if (!hash) return;
+                const hash = torrentsTable.getCurrentTorrentID();
+                if (!hash)
+                    return;
                 const rowId = torrentFilesTable.selectedRowsIds()[0];
-                if (rowId === undefined) return;
+                if (rowId === undefined)
+                    return;
                 const row = torrentFilesTable.rows[rowId];
-                if (!row) return;
+                if (!row)
+                    return;
 
                 const node = torrentFilesTable.getNode(rowId);
                 const path = node.path;
 
                 new MochaUI.Window({
                     id: 'renamePage',
-                    title: "QBT_TR(Renaming)QBT_TR[CONTEXT=TorrentContentTreeView]",
+                    title: "Renaming",
                     loadMethod: 'iframe',
                     contentURL: 'rename_file.html?hash=' + hash + '&isFolder=' + node.isFolder
-                                + '&path=' + encodeURIComponent(path),
+                        + '&path=' + encodeURIComponent(path),
                     scrollbars: false,
                     resizable: false,
                     maximizable: false,
@@ -603,7 +622,8 @@ window.qBittorrent.PropFiles = (function() {
             torrentFilesTable.setFilter(value);
             clearTimeout(torrentFilesFilterInputTimer);
             torrentFilesFilterInputTimer = setTimeout(function() {
-                if (current_hash === "") return;
+                if (current_hash === "")
+                    return;
                 torrentFilesTable.updateTable(false);
 
                 if (value.trim() === "")
@@ -725,3 +745,5 @@ window.qBittorrent.PropFiles = (function() {
 
     return exports();
 })();
+
+Object.freeze(window.qBittorrent.PropFiles);
