@@ -44,7 +44,7 @@ Based on the standard qBittorrent WebUI theme (4.5 release).
 Modify your nginx config and remove the lines that introduced the external css, anything after `rewrite ^/qbittorrent/(.*) /$1 break; ` (non inclusive) is something that can be removed. Do not leave -modded, or any other files that are not necessary for nginx to function in the `/etc/nginx/apps/` directory. Reload nginx after making changes by doing `sudo service nginx configtest`, if it returns OK, then proceed and do `sudo service nginx reload`. 
 
 # Credits
-* The source of this fork [nightwalker][https://github.com/repslet/nightwalker.git]
+* The source of this fork [nightwalker][nightwarlkersource]
 * The Walkerservers (Discord) community
 * glibN for the inspiration to use the Fontawesome pack
 * Fontawesome for their great fonts
@@ -53,3 +53,4 @@ Modify your nginx config and remove the lines that introduced the external css, 
 [preview]: preview.png
 [qbittorrentsource]: https://github.com/qbittorrent/qBittorrent/tree/master/src/webui/www1\
 [theme.park]: https://github.com/gilbN/theme.park/wiki/qBittorrent
+[nightwarlkersource]: https://github.com/repslet/nightwalker.git
